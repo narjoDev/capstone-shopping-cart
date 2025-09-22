@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import Cart from "./components/Cart";
 import ProductListWithAdd from "./components/ProductListWithAdd";
-import type { CartItem as CartItemType } from "./types";
+import type { CartItem as CartItemType, Product } from "./types";
 
 // dummy data
 import { mockProducts, mockCart } from "./lib/mockData/data";
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
   useEffect(() => {
     setCartItems(mockCart);
+    setProducts(mockProducts);
   }, []);
+
   return (
     <div id="app">
       {/* TODO: should header be a component? */}
@@ -20,7 +24,7 @@ const App = () => {
       </header>
 
       <main>
-        <ProductListWithAdd />
+        <ProductListWithAdd products={products} />
       </main>
     </div>
   );

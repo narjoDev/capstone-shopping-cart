@@ -1,14 +1,23 @@
+import type { Product } from "../types";
 import ProductDetails from "./ProductDetails";
 
-const ProductListWithAdd = () => {
+interface ProductListWithAddProps {
+  products: Product[];
+}
+
+const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
   return (
     <>
       <div className="product-listing">
         <h2>Products</h2>
         <ul className="product-list">
-          {[1, 2, 3].map(() => (
+          {products.map((product) => (
             <li className="product">
-              <ProductDetails />
+              <ProductDetails
+                title={product.title}
+                quantity={product.quantity}
+                price={product.price}
+              />
             </li>
           ))}
         </ul>
