@@ -20,6 +20,7 @@ const CartItemsTable = ({ items }: CartItemsTableProps) => {
       <tbody>
         {items.map((item) => (
           <CartItem
+            key={item._id}
             title={item.title}
             quantity={item.quantity}
             price={item.price}

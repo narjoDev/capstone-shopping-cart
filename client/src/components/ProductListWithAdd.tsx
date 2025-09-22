@@ -12,7 +12,7 @@ const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
         <h2>Products</h2>
         <ul className="product-list">
           {products.map((product) => (
-            <li className="product">
+            <li key={product._id} className="product">
               <ProductDetails
                 title={product.title}
                 quantity={product.quantity}
