@@ -3,7 +3,6 @@ import Cart from "./components/Cart";
 import ProductListWithAdd from "./components/ProductListWithAdd";
 import type { CartItem as CartItemType, Product } from "./types";
 
-// dummy data
 import { mockProducts, mockCart } from "./lib/mockData/data";
 
 const App = () => {
