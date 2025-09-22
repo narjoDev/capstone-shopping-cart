@@ -1,4 +1,6 @@
-export const mockProducts = [
+import type { CartItem, Product } from "../../types";
+
+export const mockProducts: Product[] = [
   {
     _id: "1",
     title: "Amazon Kindle E-reader",
@@ -25,7 +27,7 @@ export const mockProducts = [
   },
 ];
 
-export const mockCart = [
+export const mockCart: CartItem[] = [
   {
     _id: "a1",
     productId: "1",
