@@ -1,9 +1,13 @@
-const CartItem = () => {
+import type { CartItem as CartItemType } from "../types";
+
+type CartItemProps = Pick<CartItemType, "title" | "quantity" | "price">;
+
+const CartItem = ({ title, quantity, price }: CartItemProps) => {
   return (
     <tr>
-      <td>Amazon Kindle E-reader</td>
-      <td>2</td>
-      <td>$79.99</td>
+      <td>{title}</td>
+      <td>{quantity}</td>
+      <td>${price}</td>
     </tr>
   );
 };
