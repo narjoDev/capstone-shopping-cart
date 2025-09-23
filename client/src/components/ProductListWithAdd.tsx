@@ -1,11 +1,15 @@
+import { useState } from "react";
 import type { Product } from "../types";
 import ProductDetails from "./ProductDetails";
+import AddProductForm from "./AddProductForm";
 
 interface ProductListWithAddProps {
   products: Product[];
 }
 
 const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
+  const [showAddProduct, setShowAddProduct] = useState(false);
+
   return (
     <>
       <div className="product-listing">
@@ -22,9 +26,18 @@ const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
           ))}
         </ul>
       </div>
-      <p>
-        <button className="add-product-button">Add A Product</button>
-      </p>
+      {showAddProduct ? (
+        <AddProductForm setShowForm={setShowAddProduct} />
+      ) : (
+        <p>
+          <button
+            className="add-product-button"
+            onClick={() => setShowAddProduct(true)}
+          >
+            Add A Product
+          </button>
+        </p>
+      )}
     </>
   );
 };
