@@ -2,7 +2,6 @@ import CartItem from "./CartItem";
 import type { CartItem as CartItemType } from "../types";
 
 interface CartItemsTableProps {
-  // TODO: should we only pick the props we need?
   items: CartItemType[];
 }
 
