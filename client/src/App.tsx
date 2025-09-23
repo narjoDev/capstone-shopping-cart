@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Cart from "./components/Cart";
+import ShopHeader from "./components/ShopHeader";
 import ProductListWithAdd from "./components/ProductListWithAdd";
 import type { CartItem as CartItemType, Product } from "./types";
 
@@ -16,11 +16,7 @@ const App = () => {
 
   return (
     <div id="app">
-      {/* TODO: should header be a component? */}
-      <header>
-        <h1>The Shop!</h1>
-        <Cart items={cartItems} />
-      </header>
+      <ShopHeader cartItems={cartItems} />
 
       <main>
         <ProductListWithAdd products={products} />
