@@ -6,6 +6,7 @@ import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 import { mockCart } from "./lib/mockData/data";
 import {
   createProduct,
+  deleteProduct,
   getAllProducts,
   updateProduct,
 } from "./services/products";
@@ -49,6 +50,11 @@ const App = () => {
     return updatedProduct;
   };
 
+  const handleDeleteProduct = async (id: Product["_id"]) => {
+    await deleteProduct(id);
+    setProducts(products.filter((p) => p._id !== id));
+  };
+
   return (
     <div id="app">
       <ShopHeader cartItems={cartItems} />
@@ -58,6 +64,7 @@ const App = () => {
           products={products}
           addProduct={addProduct}
           editProduct={editProduct}
+          deleteProduct={handleDeleteProduct}
         />
       </main>
     </div>

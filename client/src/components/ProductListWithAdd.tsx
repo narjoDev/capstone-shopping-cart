@@ -9,12 +9,14 @@ interface ProductListWithAddProps {
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>
   ) => Promise<Product>;
+  deleteProduct: (id: Product["_id"]) => void;
 }
 
 const ProductListWithAdd = ({
   products,
   addProduct,
   editProduct,
+  deleteProduct,
 }: ProductListWithAddProps) => {
   return (
     <>
@@ -26,6 +28,7 @@ const ProductListWithAdd = ({
               key={product._id}
               product={product}
               editProduct={editProduct}
+              deleteProduct={deleteProduct}
             />
           ))}
         </ul>

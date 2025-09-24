@@ -1,12 +1,25 @@
 import type { Product } from "../types";
 
 interface ProductDetailsProps {
-  product: Pick<Product, "title" | "quantity" | "price">;
+  product: Product;
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteProduct: (id: Product["_id"]) => void;
 }
 
 // Srdjan says "Product" is not an ideal name
-const ProductDetails = ({ product, setShowEdit }: ProductDetailsProps) => {
+const ProductDetails = ({
+  product,
+  setShowEdit,
+  deleteProduct,
+}: ProductDetailsProps) => {
+  const handleDelete = async () => {
+    try {
+      await deleteProduct(product._id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="product-details">
       <h3>{product.title}</h3>
@@ -20,7 +33,7 @@ const ProductDetails = ({ product, setShowEdit }: ProductDetailsProps) => {
           Edit
         </button>
       </div>
-      <button className="delete-button">
+      <button className="delete-button" onClick={handleDelete}>
         <span>X</span>
       </button>
     </div>

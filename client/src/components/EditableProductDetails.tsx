@@ -9,20 +9,21 @@ interface EditableProductDetailsProps {
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>
   ) => Promise<Product>;
+  deleteProduct: (id: Product["_id"]) => void;
 }
 
 const EditableProductDetails = ({
   product,
   editProduct,
+  deleteProduct,
 }: EditableProductDetailsProps) => {
   const [showEditForm, setShowEditForm] = useState(false);
-  const { title, quantity, price } = product;
-  const detailsProductProps = { title, quantity, price };
   return (
     <li key={product._id} className="product">
       <ProductDetails
-        product={detailsProductProps}
+        product={product}
         setShowEdit={setShowEditForm}
+        deleteProduct={deleteProduct}
       />
       {showEditForm && (
         <EditProductForm

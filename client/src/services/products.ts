@@ -39,10 +39,9 @@ export const updateProduct = async (
   return updatedProduct;
 };
 
-// TODO: hook this up to components
 export const deleteProduct = async (id: Product["_id"]) => {
   const response = await fetch(`/api/products/${id}`, {
     method: "delete",
   });
-  console.log(response);
+  return response.ok;
 };
