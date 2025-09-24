@@ -4,7 +4,11 @@ import ProductListWithAdd from "./components/ProductListWithAdd";
 import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 
 import { mockCart } from "./lib/mockData/data";
-import { createProduct, getAllProducts } from "./services/products";
+import {
+  createProduct,
+  getAllProducts,
+  updateProduct,
+} from "./services/products";
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -28,12 +32,33 @@ const App = () => {
     return createdProduct;
   };
 
+  const editProduct = async (
+    id: Product["_id"],
+    updatedFields: Partial<Omit<Product, "_id">>
+  ) => {
+    const updatedProduct = await updateProduct(id, updatedFields);
+    setProducts(
+      products.map((product) => {
+        if (product._id === id) {
+          return updatedProduct;
+        } else {
+          return product;
+        }
+      })
+    );
+    return updatedProduct;
+  };
+
   return (
     <div id="app">
       <ShopHeader cartItems={cartItems} />
 
       <main>
-        <ProductListWithAdd products={products} addProduct={addProduct} />
+        <ProductListWithAdd
+          products={products}
+          addProduct={addProduct}
+          editProduct={editProduct}
+        />
       </main>
     </div>
   );

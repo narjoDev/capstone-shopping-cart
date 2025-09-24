@@ -2,15 +2,24 @@ import type { Product } from "../types";
 
 interface EditProductFormProps {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
-  product: Pick<Product, "title" | "quantity" | "price">;
+  product: Omit<Product, "_id">;
+  editProduct: (
+    id: Product["_id"],
+    updatedFields: Partial<Omit<Product, "_id">>
+  ) => Promise<Product>;
 }
 
-const EditProductForm = ({ setShowForm, product }: EditProductFormProps) => {
+const EditProductForm = ({
+  setShowForm,
+  product,
+  editProduct,
+}: EditProductFormProps) => {
   const onCancel = () => {
     setShowForm(false);
     // inputs are destroyed assuming parent unmounts this component
   };
 
+  console.log(editProduct);
   // FIXME: form inputs are read only; should be controlled
   return (
     <div className="edit-form">

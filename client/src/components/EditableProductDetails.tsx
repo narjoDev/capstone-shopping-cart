@@ -5,9 +5,16 @@ import EditProductForm from "./EditProductForm";
 
 interface EditableProductDetailsProps {
   product: Product; //Pick<Product, "title" | "quantity" | "price">;
+  editProduct: (
+    id: Product["_id"],
+    updatedFields: Partial<Omit<Product, "_id">>
+  ) => Promise<Product>;
 }
 
-const EditableProductDetails = ({ product }: EditableProductDetailsProps) => {
+const EditableProductDetails = ({
+  product,
+  editProduct,
+}: EditableProductDetailsProps) => {
   const [showEditForm, setShowEditForm] = useState(false);
   const { title, quantity, price } = product;
   const detailsProductProps = { title, quantity, price };
@@ -18,7 +25,11 @@ const EditableProductDetails = ({ product }: EditableProductDetailsProps) => {
         setShowEdit={setShowEditForm}
       />
       {showEditForm && (
-        <EditProductForm setShowForm={setShowEditForm} product={product} />
+        <EditProductForm
+          setShowForm={setShowEditForm}
+          product={product}
+          editProduct={editProduct}
+        />
       )}
     </li>
   );

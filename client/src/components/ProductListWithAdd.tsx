@@ -5,11 +5,16 @@ import ToggledAddProductForm from "./ToggledAddProductForm";
 interface ProductListWithAddProps {
   products: Product[];
   addProduct: (product: NewProduct) => Promise<Product>;
+  editProduct: (
+    id: Product["_id"],
+    updatedFields: Partial<Omit<Product, "_id">>
+  ) => Promise<Product>;
 }
 
 const ProductListWithAdd = ({
   products,
   addProduct,
+  editProduct,
 }: ProductListWithAddProps) => {
   return (
     <>
@@ -17,7 +22,11 @@ const ProductListWithAdd = ({
         <h2>Products</h2>
         <ul className="product-list">
           {products.map((product) => (
-            <EditableProductDetails key={product._id} product={product} />
+            <EditableProductDetails
+              key={product._id}
+              product={product}
+              editProduct={editProduct}
+            />
           ))}
         </ul>
       </div>

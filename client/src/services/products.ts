@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { productSchema, type NewProduct } from "../types";
+import { productSchema, type NewProduct, type Product } from "../types";
 
 const productsSchema = z.array(productSchema);
 
@@ -19,7 +19,22 @@ export const createProduct = async (newProduct: NewProduct) => {
     body: JSON.stringify(newProduct),
   });
 
-  const data = await response.json();
-  const product = productSchema.parse(data);
-  return product;
+  const createdProduct = productSchema.parse(await response.json());
+  return createdProduct;
+};
+
+export const updateProduct = async (
+  id: Product["_id"],
+  updatedFields: Partial<Omit<Product, "_id">>
+) => {
+  const response = await fetch(`/api/products/${id}`, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedFields),
+  });
+
+  const updatedProduct: Product = productSchema.parse(await response.json());
+  return updatedProduct;
 };
