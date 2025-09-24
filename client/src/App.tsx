@@ -3,15 +3,21 @@ import ShopHeader from "./components/ShopHeader";
 import ProductListWithAdd from "./components/ProductListWithAdd";
 import type { CartItem as CartItemType, Product } from "./types";
 
-import { mockProducts, mockCart } from "./lib/mockData/data";
+import { mockCart } from "./lib/mockData/data";
+import { getAllProducts } from "./services/products";
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    (async () => {
+      const fetchedProducts: Product[] | undefined = await getAllProducts();
+      if (fetchedProducts) {
+        setProducts(fetchedProducts);
+      }
+    })();
     setCartItems(mockCart);
-    setProducts(mockProducts);
   }, []);
 
   return (
