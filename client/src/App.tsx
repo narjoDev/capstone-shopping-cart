@@ -27,24 +27,20 @@ const App = () => {
     setCartItems(mockCart);
   }, []);
 
-  const addProduct = async (product: NewProduct) => {
+  const handleAddProduct = async (product: NewProduct) => {
     const createdProduct = await createProduct(product);
     setProducts(products.concat(createdProduct));
     return createdProduct;
   };
 
-  const editProduct = async (
+  const handleEditProduct = async (
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>
   ) => {
     const updatedProduct = await updateProduct(id, updatedFields);
     setProducts(
       products.map((product) => {
-        if (product._id === id) {
-          return updatedProduct;
-        } else {
-          return product;
-        }
+        return product._id === id ? updatedProduct : product;
       })
     );
     return updatedProduct;
@@ -62,8 +58,8 @@ const App = () => {
       <main>
         <ProductListWithAdd
           products={products}
-          addProduct={addProduct}
-          editProduct={editProduct}
+          addProduct={handleAddProduct}
+          editProduct={handleEditProduct}
           deleteProduct={handleDeleteProduct}
         />
       </main>
