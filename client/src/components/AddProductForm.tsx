@@ -27,7 +27,6 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log(fields);
 
     const convertedFields: NewProduct = {
       ...fields,
