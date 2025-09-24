@@ -33,10 +33,14 @@ const AddProductForm = ({ setShowForm }: AddProductFormProps) => {
       price: parseFloat(fields.price),
       quantity: parseInt(fields.quantity),
     };
-    // TODO: gracefully handle failure
-    const createdProduct = await createProduct(convertedFields);
-    console.log(createdProduct);
-    // TODO: add created product to global state
+    try {
+      const createdProduct = await createProduct(convertedFields);
+      console.log(createdProduct);
+      // TODO: add created product to global state
+    } catch (error) {
+      // TODO: gracefully handle failure
+      console.log(error);
+    }
   };
 
   const makeSetter = (field: keyof FormFields) => {

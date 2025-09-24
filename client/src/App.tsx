@@ -12,9 +12,11 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      const fetchedProducts: Product[] | undefined = await getAllProducts();
-      if (fetchedProducts) {
+      try {
+        const fetchedProducts: Product[] = await getAllProducts();
         setProducts(fetchedProducts);
+      } catch (error) {
+        console.log(error);
       }
     })();
     setCartItems(mockCart);
