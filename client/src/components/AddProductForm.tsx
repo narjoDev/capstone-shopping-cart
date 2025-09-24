@@ -1,6 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { createProduct } from "../services/products";
-import type { NewProduct } from "../types";
+import type { NewProduct, Product } from "../types";
 
 interface FormFields {
   title: string;
@@ -8,16 +7,19 @@ interface FormFields {
   quantity: string;
 }
 
+const EMPTY_FIELDS: FormFields = {
+  title: "",
+  price: "",
+  quantity: "",
+};
+
 interface AddProductFormProps {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  addProduct: (product: NewProduct) => Promise<Product>;
 }
 
-const AddProductForm = ({ setShowForm }: AddProductFormProps) => {
-  const [fields, setFields] = useState<FormFields>({
-    title: "",
-    price: "",
-    quantity: "",
-  });
+const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
+  const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
 
   const onCancel = () => {
     setShowForm(false);
@@ -34,9 +36,8 @@ const AddProductForm = ({ setShowForm }: AddProductFormProps) => {
       quantity: parseInt(fields.quantity),
     };
     try {
-      const createdProduct = await createProduct(convertedFields);
-      console.log(createdProduct);
-      // TODO: add created product to global state
+      await addProduct(convertedFields);
+      setFields(EMPTY_FIELDS);
     } catch (error) {
       // TODO: gracefully handle failure
       console.log(error);

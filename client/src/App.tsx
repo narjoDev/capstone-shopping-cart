@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import ShopHeader from "./components/ShopHeader";
 import ProductListWithAdd from "./components/ProductListWithAdd";
-import type { CartItem as CartItemType, Product } from "./types";
+import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 
 import { mockCart } from "./lib/mockData/data";
-import { getAllProducts } from "./services/products";
+import { createProduct, getAllProducts } from "./services/products";
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -22,12 +22,18 @@ const App = () => {
     setCartItems(mockCart);
   }, []);
 
+  const addProduct = async (product: NewProduct) => {
+    const createdProduct = await createProduct(product);
+    setProducts(products.concat(createdProduct));
+    return createdProduct;
+  };
+
   return (
     <div id="app">
       <ShopHeader cartItems={cartItems} />
 
       <main>
-        <ProductListWithAdd products={products} />
+        <ProductListWithAdd products={products} addProduct={addProduct} />
       </main>
     </div>
   );

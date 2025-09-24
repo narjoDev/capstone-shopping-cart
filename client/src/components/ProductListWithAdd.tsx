@@ -1,12 +1,16 @@
-import type { Product } from "../types";
+import type { NewProduct, Product } from "../types";
 import EditableProductDetails from "./EditableProductDetails";
 import ToggledAddProductForm from "./ToggledAddProductForm";
 
 interface ProductListWithAddProps {
   products: Product[];
+  addProduct: (product: NewProduct) => Promise<Product>;
 }
 
-const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
+const ProductListWithAdd = ({
+  products,
+  addProduct,
+}: ProductListWithAddProps) => {
   return (
     <>
       <div className="product-listing">
@@ -17,7 +21,7 @@ const ProductListWithAdd = ({ products }: ProductListWithAddProps) => {
           ))}
         </ul>
       </div>
-      <ToggledAddProductForm />
+      <ToggledAddProductForm addProduct={addProduct} />
     </>
   );
 };

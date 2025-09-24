@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { newProductSchema, productSchema, type NewProduct } from "../types";
+import { productSchema, type NewProduct } from "../types";
 
 const productsSchema = z.array(productSchema);
 
@@ -18,7 +18,8 @@ export const createProduct = async (newProduct: NewProduct) => {
     },
     body: JSON.stringify(newProduct),
   });
+
   const data = await response.json();
-  const product = newProductSchema.parse(data);
+  const product = productSchema.parse(data);
   return product;
 };
