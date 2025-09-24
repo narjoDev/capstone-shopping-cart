@@ -23,7 +23,6 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
 
   const onCancel = () => {
     setShowForm(false);
-    // inputs are destroyed assuming parent unmounts this component
   };
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
@@ -39,7 +38,6 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
       await addProduct(convertedFields);
       setFields(EMPTY_FIELDS);
     } catch (error) {
-      // TODO: gracefully handle failure
       console.log(error);
     }
   };
