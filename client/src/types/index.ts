@@ -7,7 +7,7 @@ export const productSchema = z.object({
   price: z.number(),
 });
 
-export type Product = z.infer<typeof productSchema>;
+export const newProductSchema = productSchema.omit({ _id: true });
 
 export const cartItemSchema = productSchema
   .pick({
@@ -20,4 +20,6 @@ export const cartItemSchema = productSchema
     productId: productSchema.shape._id,
   });
 
+export type NewProduct = z.infer<typeof newProductSchema>;
+export type Product = z.infer<typeof productSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
