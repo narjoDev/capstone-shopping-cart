@@ -91,25 +91,30 @@ const App = () => {
     }
   };
 
-  // FIXME: catch errors here; optional callback
   const handleAddToCart = async (id: Product["_id"]) => {
-    // FIXME: check product quantity before attempting to add
-    const { product: updatedProduct, item: updatedItem } = await addToCart(id);
-    setProducts((prevProducts) => {
-      return prevProducts.map((product) => {
-        return product._id === id ? updatedProduct : product;
-      });
-    });
-    if (updatedItem.quantity === 1) {
-      setCartItems((prevCartItems) => {
-        return prevCartItems.concat(updatedItem);
-      });
-    } else {
-      setCartItems((prevCartItems) => {
-        return prevCartItems.map((item) => {
-          return item._id === updatedItem._id ? updatedItem : item;
+    try {
+      // FIXME: check product quantity before attempting to add
+      const { product: updatedProduct, item: updatedItem } = await addToCart(
+        id
+      );
+      setProducts((prevProducts) => {
+        return prevProducts.map((product) => {
+          return product._id === id ? updatedProduct : product;
         });
       });
+      if (updatedItem.quantity === 1) {
+        setCartItems((prevCartItems) => {
+          return prevCartItems.concat(updatedItem);
+        });
+      } else {
+        setCartItems((prevCartItems) => {
+          return prevCartItems.map((item) => {
+            return item._id === updatedItem._id ? updatedItem : item;
+          });
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
