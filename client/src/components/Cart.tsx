@@ -12,8 +12,11 @@ const Cart = ({ items, onCheckout }: CartProps) => {
       <h2>Your Cart</h2>
       <CartItemsTable items={items} />
       <div className="checkout-button">
-        {/* FIXME: disable if empty */}
-        <button className="checkout" onClick={onCheckout}>
+        <button
+          className="checkout"
+          onClick={onCheckout}
+          disabled={items.length === 0}
+        >
           Checkout
         </button>
       </div>
