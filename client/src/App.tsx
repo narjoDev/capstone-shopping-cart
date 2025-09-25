@@ -50,18 +50,24 @@ const App = () => {
     }
   };
 
-  // FIXME: catch errors here; optional callback
   const handleEditProduct = async (
     id: Product["_id"],
-    updatedFields: Partial<Omit<Product, "_id">>
+    updatedFields: Partial<Omit<Product, "_id">>,
+    callback?: () => void
   ) => {
-    const updatedProduct = await updateProduct(id, updatedFields);
-    setProducts((prevProducts) => {
-      return prevProducts.map((product) => {
-        return product._id === id ? updatedProduct : product;
+    try {
+      const updatedProduct = await updateProduct(id, updatedFields);
+      setProducts((prevProducts) => {
+        return prevProducts.map((product) => {
+          return product._id === id ? updatedProduct : product;
+        });
       });
-    });
-    return updatedProduct;
+      if (callback) {
+        callback();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // FIXME: does not delete matching cart items (optional?)

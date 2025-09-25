@@ -18,8 +18,9 @@ interface EditProductFormProps {
   product: Product;
   editProduct: (
     id: Product["_id"],
-    updatedFields: Partial<Omit<Product, "_id">>
-  ) => Promise<Product>;
+    updatedFields: Partial<Omit<Product, "_id">>,
+    callback?: () => void
+  ) => void;
 }
 
 const EditProductForm = ({
@@ -49,12 +50,7 @@ const EditProductForm = ({
       optionalFields.quantity = parseInt(fields.quantity);
     }
 
-    try {
-      await editProduct(product._id, optionalFields);
-      setShowForm(false);
-    } catch (error) {
-      console.log(error);
-    }
+    await editProduct(product._id, optionalFields, () => setShowForm(false));
   };
 
   const makeSetter = (field: keyof FormFields) => {

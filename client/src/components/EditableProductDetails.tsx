@@ -7,8 +7,9 @@ interface EditableProductDetailsProps {
   product: Product; //Pick<Product, "title" | "quantity" | "price">;
   editProduct: (
     id: Product["_id"],
-    updatedFields: Partial<Omit<Product, "_id">>
-  ) => Promise<Product>;
+    updatedFields: Partial<Omit<Product, "_id">>,
+    callback?: () => void
+  ) => void;
   deleteProduct: (id: Product["_id"]) => void;
   onAddToCart: (id: Product["_id"]) => void;
 }
