@@ -92,8 +92,20 @@ const App = () => {
   };
 
   const handleAddToCart = async (id: Product["_id"]) => {
+    const productMatch: Product | undefined = products.find(
+      (product) => product._id === id
+    );
+
+    if (!productMatch) {
+      console.log("Error: Product not found");
+      return;
+    } else if (productMatch.quantity === 0) {
+      console.log("Error: Product has quantity 0");
+      return;
+    }
+
+    // exists and quantity not zero
     try {
-      // FIXME: check product quantity before attempting to add
       const { product: updatedProduct, item: updatedItem } = await addToCart(
         id
       );
