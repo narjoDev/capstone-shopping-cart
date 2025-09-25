@@ -37,10 +37,19 @@ const App = () => {
 
   // TODO: Consider: solution catches and logs errors in these handlers
 
-  const handleAddProduct = async (product: NewProduct) => {
-    const createdProduct = await createProduct(product);
-    setProducts((prevProducts) => prevProducts.concat(createdProduct));
-    return createdProduct;
+  const handleAddProduct = async (
+    product: NewProduct,
+    callback?: () => void
+  ) => {
+    try {
+      const createdProduct = await createProduct(product);
+      setProducts((prevProducts) => prevProducts.concat(createdProduct));
+      if (callback) {
+        callback();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleEditProduct = async (

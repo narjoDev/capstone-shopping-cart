@@ -1,9 +1,9 @@
 import { useState } from "react";
 import AddProductForm from "./AddProductForm";
-import type { NewProduct, Product } from "../types";
+import type { NewProduct } from "../types";
 
 interface ToggledAddProductFormProps {
-  addProduct: (product: NewProduct) => Promise<Product>;
+  addProduct: (product: NewProduct, callback?: () => void) => void;
 }
 
 const ToggledAddProductForm = ({ addProduct }: ToggledAddProductFormProps) => {

@@ -4,7 +4,7 @@ import ToggledAddProductForm from "./ToggledAddProductForm";
 
 interface ProductListWithAddProps {
   products: Product[];
-  addProduct: (product: NewProduct) => Promise<Product>;
+  addProduct: (product: NewProduct, callback?: () => void) => void;
   editProduct: (
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>

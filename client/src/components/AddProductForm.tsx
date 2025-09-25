@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import type { NewProduct, Product } from "../types";
+import type { NewProduct } from "../types";
 
 interface FormFields {
   title: string;
@@ -15,7 +15,7 @@ const EMPTY_FIELDS: FormFields = {
 
 interface AddProductFormProps {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
-  addProduct: (product: NewProduct) => Promise<Product>;
+  addProduct: (product: NewProduct, callback?: () => void) => void;
 }
 
 // solution uses common ProductForm component for both add and edit
@@ -35,13 +35,8 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
       price: parseFloat(fields.price),
       quantity: parseInt(fields.quantity),
     };
-    try {
-      await addProduct(convertedFields);
-      // solution passes callback to handler
-      setFields(EMPTY_FIELDS);
-    } catch (error) {
-      console.log(error);
-    }
+
+    await addProduct(convertedFields, () => setFields(EMPTY_FIELDS));
   };
 
   const makeSetter = (field: keyof FormFields) => {
