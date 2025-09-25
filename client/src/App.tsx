@@ -35,8 +35,6 @@ const App = () => {
     })();
   }, []);
 
-  // TODO: Consider: solution catches and logs errors in these handlers
-
   const handleAddProduct = async (
     product: NewProduct,
     callback?: () => void
@@ -52,6 +50,7 @@ const App = () => {
     }
   };
 
+  // FIXME: catch errors here; optional callback
   const handleEditProduct = async (
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>
@@ -65,7 +64,8 @@ const App = () => {
     return updatedProduct;
   };
 
-  // currently does not delete from cart
+  // FIXME: does not delete matching cart items (optional?)
+  // FIXME: catch errors here; optional callback
   const handleDeleteProduct = async (id: Product["_id"]) => {
     await deleteProduct(id);
     setProducts((prevProducts) => {
@@ -73,11 +73,13 @@ const App = () => {
     });
   };
 
+  // FIXME: catch errors here; optional callback
   const handleCheckout = async () => {
     await checkout();
     setCartItems([]);
   };
 
+  // FIXME: catch errors here; optional callback
   const handleAddToCart = async (id: Product["_id"]) => {
     // FIXME: check product quantity before attempting to add
     const { product: updatedProduct, item: updatedItem } = await addToCart(id);
