@@ -39,8 +39,7 @@ const App = () => {
 
   const handleAddProduct = async (product: NewProduct) => {
     const createdProduct = await createProduct(product);
-    // FIXME: use previous state
-    setProducts(products.concat(createdProduct));
+    setProducts((prevProducts) => prevProducts.concat(createdProduct));
     return createdProduct;
   };
 
@@ -49,45 +48,45 @@ const App = () => {
     updatedFields: Partial<Omit<Product, "_id">>
   ) => {
     const updatedProduct = await updateProduct(id, updatedFields);
-    // FIXME: use previous state
-    setProducts(
-      products.map((product) => {
+    setProducts((prevProducts) => {
+      return prevProducts.map((product) => {
         return product._id === id ? updatedProduct : product;
-      })
-    );
+      });
+    });
     return updatedProduct;
   };
 
+  // currently does not delete from cart
   const handleDeleteProduct = async (id: Product["_id"]) => {
     await deleteProduct(id);
-    // FIXME: use previous state
-    setProducts(products.filter((p) => p._id !== id));
+    setProducts((prevProducts) => {
+      return prevProducts.filter((p) => p._id !== id);
+    });
   };
 
   const handleCheckout = async () => {
     await checkout();
-    // FIXME: use previous state
     setCartItems([]);
   };
 
   const handleAddToCart = async (id: Product["_id"]) => {
+    // FIXME: check product quantity before attempting to add
     const { product: updatedProduct, item: updatedItem } = await addToCart(id);
-    // FIXME: use previous state
-    setProducts(
-      products.map((product) => {
+    setProducts((prevProducts) => {
+      return prevProducts.map((product) => {
         return product._id === id ? updatedProduct : product;
-      })
-    );
+      });
+    });
     if (updatedItem.quantity === 1) {
-      // FIXME: use previous state
-      setCartItems(cartItems.concat(updatedItem));
+      setCartItems((prevCartItems) => {
+        return prevCartItems.concat(updatedItem);
+      });
     } else {
-      // FIXME: use previous state
-      setCartItems(
-        cartItems.map((item) => {
+      setCartItems((prevCartItems) => {
+        return prevCartItems.map((item) => {
           return item._id === updatedItem._id ? updatedItem : item;
-        })
-      );
+        });
+      });
     }
   };
 
