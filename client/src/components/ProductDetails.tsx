@@ -14,14 +14,6 @@ const ProductDetails = ({
   deleteProduct,
   onAddToCart,
 }: ProductDetailsProps) => {
-  const handleDelete = async () => {
-    try {
-      await deleteProduct(product._id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className="product-details">
       <h3>{product.title}</h3>
@@ -39,7 +31,10 @@ const ProductDetails = ({
           Edit
         </button>
       </div>
-      <button className="delete-button" onClick={handleDelete}>
+      <button
+        className="delete-button"
+        onClick={() => deleteProduct(product._id)}
+      >
         <span>X</span>
       </button>
     </div>

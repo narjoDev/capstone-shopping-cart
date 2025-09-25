@@ -65,18 +65,24 @@ const App = () => {
   };
 
   // FIXME: does not delete matching cart items (optional?)
-  // FIXME: catch errors here; optional callback
   const handleDeleteProduct = async (id: Product["_id"]) => {
-    await deleteProduct(id);
-    setProducts((prevProducts) => {
-      return prevProducts.filter((p) => p._id !== id);
-    });
+    try {
+      await deleteProduct(id);
+      setProducts((prevProducts) => {
+        return prevProducts.filter((p) => p._id !== id);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // FIXME: catch errors here; optional callback
   const handleCheckout = async () => {
-    await checkout();
-    setCartItems([]);
+    try {
+      await checkout();
+      setCartItems([]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // FIXME: catch errors here; optional callback
