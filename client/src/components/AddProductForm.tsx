@@ -18,6 +18,8 @@ interface AddProductFormProps {
   addProduct: (product: NewProduct) => Promise<Product>;
 }
 
+// solution uses common ProductForm component for both add and edit
+// note that this makes fields in the edit form required
 const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
   const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
 
@@ -35,6 +37,7 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
     };
     try {
       await addProduct(convertedFields);
+      // solution passes callback to handler
       setFields(EMPTY_FIELDS);
     } catch (error) {
       console.log(error);
