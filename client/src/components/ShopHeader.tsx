@@ -3,13 +3,14 @@ import Cart from "./Cart";
 
 interface ShopHeaderProps {
   cartItems: CartItemType[];
+  onCheckout: () => void;
 }
 
-const ShopHeader = ({ cartItems }: ShopHeaderProps) => {
+const ShopHeader = ({ cartItems, onCheckout }: ShopHeaderProps) => {
   return (
     <header>
       <h1>The Shop!</h1>
-      <Cart items={cartItems} />
+      <Cart items={cartItems} onCheckout={onCheckout} />
     </header>
   );
 };

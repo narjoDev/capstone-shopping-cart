@@ -10,12 +10,14 @@ interface EditableProductDetailsProps {
     updatedFields: Partial<Omit<Product, "_id">>
   ) => Promise<Product>;
   deleteProduct: (id: Product["_id"]) => void;
+  onAddToCart: (id: Product["_id"]) => void;
 }
 
 const EditableProductDetails = ({
   product,
   editProduct,
   deleteProduct,
+  onAddToCart,
 }: EditableProductDetailsProps) => {
   const [showEditForm, setShowEditForm] = useState(false);
   return (
@@ -24,6 +26,7 @@ const EditableProductDetails = ({
         product={product}
         setShowEdit={setShowEditForm}
         deleteProduct={deleteProduct}
+        onAddToCart={onAddToCart}
       />
       {showEditForm && (
         <EditProductForm

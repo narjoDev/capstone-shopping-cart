@@ -3,13 +3,13 @@ import ShopHeader from "./components/ShopHeader";
 import ProductListWithAdd from "./components/ProductListWithAdd";
 import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 
-import { mockCart } from "./lib/mockData/data";
 import {
   createProduct,
   deleteProduct,
   getAllProducts,
   updateProduct,
 } from "./services/products";
+import { addToCart, checkout, getAllCartItems } from "./services/cart";
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -24,7 +24,14 @@ const App = () => {
         console.log(error);
       }
     })();
-    setCartItems(mockCart);
+    (async () => {
+      try {
+        const fetchedCart: CartItemType[] = await getAllCartItems();
+        setCartItems(fetchedCart);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   const handleAddProduct = async (product: NewProduct) => {
@@ -51,9 +58,32 @@ const App = () => {
     setProducts(products.filter((p) => p._id !== id));
   };
 
+  const handleCheckout = async () => {
+    await checkout();
+    setCartItems([]);
+  };
+
+  const handleAddToCart = async (id: Product["_id"]) => {
+    const { product: updatedProduct, item: updatedItem } = await addToCart(id);
+    setProducts(
+      products.map((product) => {
+        return product._id === id ? updatedProduct : product;
+      })
+    );
+    if (updatedItem.quantity === 1) {
+      setCartItems(cartItems.concat(updatedItem));
+    } else {
+      setCartItems(
+        cartItems.map((item) => {
+          return item._id === updatedItem._id ? updatedItem : item;
+        })
+      );
+    }
+  };
+
   return (
     <div id="app">
-      <ShopHeader cartItems={cartItems} />
+      <ShopHeader cartItems={cartItems} onCheckout={handleCheckout} />
 
       <main>
         <ProductListWithAdd
@@ -61,6 +91,7 @@ const App = () => {
           addProduct={handleAddProduct}
           editProduct={handleEditProduct}
           deleteProduct={handleDeleteProduct}
+          onAddToCart={handleAddToCart}
         />
       </main>
     </div>

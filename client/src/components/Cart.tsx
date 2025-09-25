@@ -3,15 +3,18 @@ import type { CartItem as CartItemType } from "../types";
 
 interface CartProps {
   items: CartItemType[];
+  onCheckout: () => void;
 }
 
-const Cart = ({ items }: CartProps) => {
+const Cart = ({ items, onCheckout }: CartProps) => {
   return (
     <div className="cart">
       <h2>Your Cart</h2>
       <CartItemsTable items={items} />
       <div className="checkout-button">
-        <button className="checkout">Checkout</button>
+        <button className="checkout" onClick={onCheckout}>
+          Checkout
+        </button>
       </div>
     </div>
   );

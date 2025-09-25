@@ -10,6 +10,7 @@ interface ProductListWithAddProps {
     updatedFields: Partial<Omit<Product, "_id">>
   ) => Promise<Product>;
   deleteProduct: (id: Product["_id"]) => void;
+  onAddToCart: (id: Product["_id"]) => void;
 }
 
 const ProductListWithAdd = ({
@@ -17,6 +18,7 @@ const ProductListWithAdd = ({
   addProduct,
   editProduct,
   deleteProduct,
+  onAddToCart,
 }: ProductListWithAddProps) => {
   return (
     <>
@@ -29,6 +31,7 @@ const ProductListWithAdd = ({
               product={product}
               editProduct={editProduct}
               deleteProduct={deleteProduct}
+              onAddToCart={onAddToCart}
             />
           ))}
         </ul>

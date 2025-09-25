@@ -18,7 +18,10 @@ export const checkout = async () => {
   const response = await fetch("/api/checkout", {
     method: "post",
   });
-  return response.ok;
+  if (!response.ok) {
+    console.log(response);
+    throw Error(`Error checking out. Response not ok.`);
+  }
 };
 
 export const addToCart = async (productId: Product["_id"]) => {
