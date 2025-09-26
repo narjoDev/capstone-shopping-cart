@@ -36,7 +36,7 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
       quantity: parseInt(fields.quantity),
     };
 
-    await addProduct(convertedFields, () => setFields(EMPTY_FIELDS));
+    await addProduct(convertedFields, () => setShowForm(false));
   };
 
   const makeSetter = (field: keyof FormFields) => {

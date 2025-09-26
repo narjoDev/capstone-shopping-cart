@@ -74,7 +74,7 @@ it("displays cart headings and items", async () => {
   expect(priceCell).toBeInTheDocument();
 });
 
-it("when product is added, it appears in list", async () => {
+it("when product is added: it appears in list, form disappears", async () => {
   const mockedProduct: Product = {
     _id: "xxx",
     title: "Amazon Kindle E-reader",
@@ -115,4 +115,10 @@ it("when product is added, it appears in list", async () => {
     name: "Amazon Kindle E-reader",
   });
   expect(title).toBeInTheDocument();
+
+  // assert form disappears
+  expect(titleInput).not.toBeInTheDocument();
+  expect(priceInput).not.toBeInTheDocument();
+  expect(quantityInput).not.toBeInTheDocument();
+  expect(submitButton).not.toBeInTheDocument();
 });
