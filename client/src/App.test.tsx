@@ -49,6 +49,31 @@ it("displays message for empty cart", async () => {
   expect(emptyMessage).toBeInTheDocument();
 });
 
+it("displays cart headings and items", async () => {
+  const mockCartItem = {
+    _id: "a1",
+    productId: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 1,
+    price: 79.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([]);
+  mockedCartService.getAllCartItems.mockResolvedValue([mockCartItem]);
+
+  render(<App />);
+
+  const priceHeading = await screen.findByRole("columnheader", {
+    name: /quantity/i,
+  });
+  expect(priceHeading).toBeInTheDocument();
+
+  const priceCell = await screen.findByRole("cell", {
+    name: `$${mockCartItem.price}`,
+  });
+  expect(priceCell).toBeInTheDocument();
+});
+
 it("when product is added, it appears in list", async () => {
   const mockedProduct: Product = {
     _id: "xxx",
