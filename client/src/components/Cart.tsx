@@ -10,7 +10,11 @@ const Cart = ({ items, onCheckout }: CartProps) => {
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      <CartItemsTable items={items} />
+      {items.length ? (
+        <CartItemsTable items={items} />
+      ) : (
+        <p>Your cart is empty.</p>
+      )}
       <div className="checkout-button">
         <button
           className="checkout"

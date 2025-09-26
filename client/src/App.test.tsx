@@ -36,6 +36,19 @@ it("displays a product if exists", async () => {
   expect(title).toBeInTheDocument();
 });
 
+it("displays message for empty cart", async () => {
+  mockedProductService.getAllProducts.mockResolvedValue([]);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+
+  render(<App />);
+
+  const cartHeading = await screen.findByRole("heading", { name: /Your Cart/ });
+  expect(cartHeading).toBeInTheDocument();
+
+  const emptyMessage = screen.getByText(/cart is empty/i);
+  expect(emptyMessage).toBeInTheDocument();
+});
+
 it("when product is added, it appears in list", async () => {
   const mockedProduct: Product = {
     _id: "xxx",
