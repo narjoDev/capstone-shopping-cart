@@ -1,6 +1,6 @@
 import App from "./App";
 
-import { act, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import * as productService from "./services/products";
@@ -49,14 +49,10 @@ it("when product is added, it appears in list", async () => {
   mockedProductService.getAllProducts.mockResolvedValue([]);
   mockedCartService.getAllCartItems.mockResolvedValue([]);
 
-  // FIXME:
-  // An update to App inside a test was not wrapped in act(...)
-  // act(() => render(<App />));
   render(<App />);
-  // return;
 
   // show form
-  const addButton = await screen.getByRole("button", {
+  const addButton = await screen.findByRole("button", {
     name: /Add A Product/i,
   });
   await user.click(addButton);
