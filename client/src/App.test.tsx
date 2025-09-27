@@ -12,9 +12,7 @@ vi.mock("./services/cart.ts");
 const mockedProductService = vi.mocked(productService);
 const mockedCartService = vi.mocked(cartService);
 
-beforeEach(() => {
-  vi.resetAllMocks();
-});
+beforeEach(vi.resetAllMocks);
 
 it("displays a product if exists", async () => {
   const mockedAllProducts: Product[] = [
