@@ -120,3 +120,32 @@ it("when product is added: it appears in list, form disappears", async () => {
   expect(quantityInput).not.toBeInTheDocument();
   expect(submitButton).not.toBeInTheDocument();
 });
+
+it("product delete button exists and works", async () => {
+  const mockedAllProducts: Product[] = [
+    {
+      _id: "1",
+      title: "Amazon Kindle E-reader",
+      quantity: 5,
+      price: 79.99,
+    },
+  ];
+
+  mockedProductService.getAllProducts.mockResolvedValue(mockedAllProducts);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const title = await screen.findByRole("heading", {
+    name: "Amazon Kindle E-reader",
+  });
+  expect(title).toBeInTheDocument();
+
+  const deleteButton = await screen.findByRole("button", {
+    name: /x/i,
+  });
+  expect(deleteButton).toBeInTheDocument();
+
+  await user.click(deleteButton);
+  expect(deleteButton).not.toBeInTheDocument();
+});
