@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 
 import * as productService from "./services/products";
 import * as cartService from "./services/cart";
-import type { Product } from "./types";
+import type { CartItem, Product } from "./types";
 
 vi.mock("./services/products.ts");
 vi.mock("./services/cart.ts");
@@ -48,7 +48,7 @@ it("displays message for empty cart", async () => {
 });
 
 it("displays cart headings and items", async () => {
-  const mockCartItem = {
+  const mockCartItem: CartItem = {
     _id: "a1",
     productId: "1",
     title: "Amazon Kindle E-reader",
@@ -121,7 +121,7 @@ it("when product is added: it appears in list, form disappears", async () => {
   expect(submitButton).not.toBeInTheDocument();
 });
 
-it("product delete button exists and works", async () => {
+it("product delete button exists and removes product", async () => {
   const mockedAllProducts: Product[] = [
     {
       _id: "1",
@@ -148,4 +148,55 @@ it("product delete button exists and works", async () => {
 
   await user.click(deleteButton);
   expect(deleteButton).not.toBeInTheDocument();
+});
+
+it("add to cart makes product appear in cart; reduces quantity", async () => {
+  const mockedProduct: Product = {
+    _id: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 5,
+    price: 79.99,
+  };
+  const mockCartItem: CartItem = {
+    _id: "a1",
+    productId: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 1,
+    price: 79.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([mockedProduct]);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const addToCartButton = await screen.findByRole("button", {
+    name: /add to cart/i,
+  });
+  expect(addToCartButton).toBeInTheDocument();
+
+  // mockedCartService.getAllCartItems.mockResolvedValue([mockCartItem]);
+  mockedCartService.addToCart.mockResolvedValue({
+    product: { ...mockedProduct, quantity: 4 },
+    item: mockCartItem,
+  });
+  await user.click(addToCartButton);
+
+  // cart matches product
+  const priceCell = await screen.findByRole("cell", {
+    name: `$${mockedProduct.price}`,
+  });
+  expect(priceCell).toBeInTheDocument();
+
+  // initial quantity is 1
+  const quantityCell = await screen.findByRole("cell", {
+    name: "1",
+  });
+  expect(quantityCell).toBeInTheDocument();
+
+  // reduces quantity left
+  const quantityLeft = await screen.findByText(
+    `${mockedProduct.quantity - 1} left in stock`
+  );
+  expect(quantityLeft).toBeInTheDocument();
 });
