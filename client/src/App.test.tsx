@@ -200,3 +200,37 @@ it("add to cart makes product appear in cart; reduces quantity", async () => {
   );
   expect(quantityLeft).toBeInTheDocument();
 });
+
+it("checkout removes item and shows empty message", async () => {
+  const mockCartItem: CartItem = {
+    _id: "a1",
+    productId: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 1,
+    price: 79.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([]);
+  mockedCartService.getAllCartItems.mockResolvedValue([mockCartItem]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const priceCell = await screen.findByRole("cell", {
+    name: `$${mockCartItem.price}`,
+  });
+  expect(priceCell).toBeInTheDocument();
+
+  const checkoutButton = await screen.findByRole("button", {
+    name: /checkout/i,
+  });
+  expect(checkoutButton).toBeInTheDocument();
+  expect(checkoutButton).not.toBeDisabled();
+
+  mockedCartService.checkout.mockResolvedValue();
+  await user.click(checkoutButton);
+
+  expect(priceCell).not.toBeInTheDocument();
+  expect(checkoutButton).toBeDisabled();
+  const emptyMessage = screen.getByText(/cart is empty/i);
+  expect(emptyMessage).toBeInTheDocument();
+});
