@@ -291,3 +291,63 @@ it("clicking cancel hides edit form", async () => {
   expect(editButton).toBeInTheDocument();
   expect(cancelButton).not.toBeInTheDocument();
 });
+
+it("editing product hides form and updates display", async () => {
+  const mockedProduct: Product = {
+    _id: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 5,
+    price: 79.99,
+  };
+  const mockedUpdatedProduct: Product = {
+    _id: "1",
+    title: "Paperback Paradise",
+    quantity: 7,
+    price: 18.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([mockedProduct]);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const editButton = await screen.findByRole("button", {
+    name: "Edit",
+  });
+  expect(editButton).toBeInTheDocument();
+
+  await user.click(editButton);
+
+  // fill form
+  const titleInput = screen.getByRole("textbox", { name: /Product Name/ });
+  await user.type(titleInput, mockedUpdatedProduct.title);
+
+  const priceInput = screen.getByRole("spinbutton", { name: /Price/ });
+  await user.type(priceInput, mockedUpdatedProduct.price.toString());
+
+  const quantityInput = screen.getByRole("spinbutton", { name: /Quantity/ });
+  await user.type(quantityInput, mockedUpdatedProduct.quantity.toString());
+
+  // submit form
+  const updateButton = screen.getByRole("button", { name: "Update" });
+  mockedProductService.updateProduct.mockResolvedValue(mockedUpdatedProduct);
+  await user.click(updateButton);
+
+  // assert hides form
+  expect(editButton).toBeInTheDocument();
+  expect(updateButton).not.toBeInTheDocument();
+
+  // assert product updated
+  const newTitle = await screen.findByRole("heading", {
+    name: mockedUpdatedProduct.title,
+  });
+  expect(newTitle).toBeInTheDocument();
+
+  const newPrice = await screen.findByText(
+    `${mockedUpdatedProduct.quantity} left in stock`
+  );
+  expect(newPrice).toBeInTheDocument();
+
+  const newQuantity = await screen.findByText(`$${mockedUpdatedProduct.price}`);
+  expect(newQuantity).toBeInTheDocument();
+});
