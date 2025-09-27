@@ -234,3 +234,60 @@ it("checkout removes item and shows empty message", async () => {
   const emptyMessage = screen.getByText(/cart is empty/i);
   expect(emptyMessage).toBeInTheDocument();
 });
+
+it("clicking edit shows edit form", async () => {
+  const mockedProduct: Product = {
+    _id: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 5,
+    price: 79.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([mockedProduct]);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const editButton = await screen.findByRole("button", {
+    name: /Edit/i,
+  });
+  expect(editButton).toBeInTheDocument();
+
+  await user.click(editButton);
+
+  const editHeading = await screen.findByRole("heading", {
+    name: "Edit Product",
+  });
+  expect(editHeading).toBeInTheDocument();
+});
+
+it("clicking cancel hides edit form", async () => {
+  const mockedProduct: Product = {
+    _id: "1",
+    title: "Amazon Kindle E-reader",
+    quantity: 5,
+    price: 79.99,
+  };
+
+  mockedProductService.getAllProducts.mockResolvedValue([mockedProduct]);
+  mockedCartService.getAllCartItems.mockResolvedValue([]);
+  render(<App />);
+  const user = userEvent.setup();
+
+  const editButton = await screen.findByRole("button", {
+    name: "Edit",
+  });
+  expect(editButton).toBeInTheDocument();
+
+  await user.click(editButton);
+
+  const cancelButton = await screen.findByRole("button", {
+    name: "Cancel",
+  });
+  expect(cancelButton).toBeInTheDocument();
+
+  await user.click(cancelButton);
+
+  expect(editButton).toBeInTheDocument();
+  expect(cancelButton).not.toBeInTheDocument();
+});
