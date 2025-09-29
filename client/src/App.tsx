@@ -1,7 +1,8 @@
 import { useEffect, useReducer } from "react";
 
 import ShopHeader from "./components/ShopHeader";
-import ProductListWithAdd from "./components/ProductListWithAdd";
+import ProductList from "./components/ProductListWithAdd";
+import ToggledAddProductForm from "./components/ToggledAddProductForm";
 
 import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 
@@ -120,14 +121,13 @@ const App = () => {
       <ShopHeader cartItems={cartItems} onCheckout={handleCheckout} />
 
       <main>
-        <ProductListWithAdd
+        <ProductList
           products={products}
-          addProduct={handleAddProduct}
           editProduct={handleEditProduct}
           deleteProduct={handleDeleteProduct}
           onAddToCart={handleAddToCart}
         />
-        {/* TODO: extract toggled add form */}
+        <ToggledAddProductForm addProduct={handleAddProduct} />
       </main>
     </div>
   );

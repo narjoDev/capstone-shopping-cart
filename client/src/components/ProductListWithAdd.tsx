@@ -1,10 +1,8 @@
-import type { NewProduct, Product } from "../types";
+import type { Product } from "../types";
 import EditableProductDetails from "./EditableProductDetails";
-import ToggledAddProductForm from "./ToggledAddProductForm";
 
-interface ProductListWithAddProps {
+interface ProductListProps {
   products: Product[];
-  addProduct: (product: NewProduct, callback?: () => void) => void;
   editProduct: (
     id: Product["_id"],
     updatedFields: Partial<Omit<Product, "_id">>,
@@ -14,32 +12,28 @@ interface ProductListWithAddProps {
   onAddToCart: (id: Product["_id"]) => void;
 }
 
-const ProductListWithAdd = ({
+const ProductList = ({
   products,
-  addProduct,
   editProduct,
   deleteProduct,
   onAddToCart,
-}: ProductListWithAddProps) => {
+}: ProductListProps) => {
   return (
-    <>
-      <div className="product-listing">
-        <h2>Products</h2>
-        <ul className="product-list">
-          {products.map((product) => (
-            <EditableProductDetails
-              key={product._id}
-              product={product}
-              editProduct={editProduct}
-              deleteProduct={deleteProduct}
-              onAddToCart={onAddToCart}
-            />
-          ))}
-        </ul>
-      </div>
-      <ToggledAddProductForm addProduct={addProduct} />
-    </>
+    <div className="product-listing">
+      <h2>Products</h2>
+      <ul className="product-list">
+        {products.map((product) => (
+          <EditableProductDetails
+            key={product._id}
+            product={product}
+            editProduct={editProduct}
+            deleteProduct={deleteProduct}
+            onAddToCart={onAddToCart}
+          />
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default ProductListWithAdd;
+export default ProductList;
