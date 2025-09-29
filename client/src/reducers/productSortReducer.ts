@@ -5,7 +5,7 @@ interface ProductSortOverwriteAction {
   products: Product[];
 }
 
-interface SortConfig {
+export interface SortConfig {
   sortField: keyof Pick<Product, "title" | "price" | "quantity">;
   isAscending: boolean;
 }

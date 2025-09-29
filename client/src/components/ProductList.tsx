@@ -1,9 +1,9 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import type { Product } from "../types";
 import EditableProductDetails from "./EditableProductDetails";
 import SortControls from "./SortControls";
 import productSortReducer, {
-  type ProductSortConfigAction,
+  type SortConfig,
 } from "../reducers/productSortReducer";
 
 interface ProductListProps {
@@ -29,9 +29,9 @@ const ProductList = ({
   });
   const { products: sortedProducts, config } = sortState;
 
-  // useEffect(() => {
-  //   dispatch(sortConfig);
-  // }, [sortConfig]);
+  const handleConfigChange = (config: SortConfig) => {
+    dispatch({ type: "PRODUCT_SORT_CONFIG", config });
+  };
 
   useEffect(() => {
     dispatch({ type: "PRODUCT_SORT_OVERWRITE", products });
@@ -40,7 +40,7 @@ const ProductList = ({
   return (
     <div className="product-listing">
       <h2>Products</h2>
-      {/* <SortControls /> */}
+      <SortControls config={config} onConfigChange={handleConfigChange} />
       <ul className="product-list">
         {sortedProducts.map((product) => (
           <EditableProductDetails
