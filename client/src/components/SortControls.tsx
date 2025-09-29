@@ -11,8 +11,16 @@ interface SortButtonProps {
 
 const SortButton = ({ onClick, text, isAscending }: SortButtonProps) => {
   const arrow = isAscending ? ARROW_UP : ARROW_DOWN;
+  const style =
+    isAscending === null
+      ? {
+          background: "transparent",
+          color: "#07575b",
+          borderColor: "#07575b",
+        }
+      : {};
   return (
-    <button onClick={onClick}>
+    <button onClick={onClick} style={{ ...style, borderWidth: "1px" }}>
       {text}
       {isAscending !== null && arrow}
     </button>
