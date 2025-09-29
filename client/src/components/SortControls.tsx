@@ -3,6 +3,22 @@ import type { SortConfig } from "../reducers/productSortReducer";
 const ARROW_UP = "↑";
 const ARROW_DOWN = "↓";
 
+interface SortButtonProps {
+  onClick: (event: React.SyntheticEvent) => void;
+  text: string;
+  isAscending: boolean | null;
+}
+
+const SortButton = ({ onClick, text, isAscending }: SortButtonProps) => {
+  const arrow = isAscending ? ARROW_UP : ARROW_DOWN;
+  return (
+    <button onClick={onClick}>
+      {text}
+      {isAscending !== null && arrow}
+    </button>
+  );
+};
+
 interface SortControlsProps {
   config: SortConfig;
   onConfigChange: (config: SortConfig) => void;
@@ -25,9 +41,24 @@ const SortControls = ({ config, onConfigChange }: SortControlsProps) => {
   return (
     <div>
       Sort by:
-      <button onClick={onClickSort("title")}>Name</button>
-      <button onClick={onClickSort("price")}>Price</button>
-      <button onClick={onClickSort("quantity")}>Quantity</button>
+      {/* TODO: this is a bit of a mess */}
+      <SortButton
+        onClick={onClickSort("title")}
+        text={"Name"}
+        isAscending={config.sortField === "title" ? config.isAscending : null}
+      />
+      <SortButton
+        onClick={onClickSort("price")}
+        text={"Price"}
+        isAscending={config.sortField === "price" ? config.isAscending : null}
+      />
+      <SortButton
+        onClick={onClickSort("quantity")}
+        text={"Quantity"}
+        isAscending={
+          config.sortField === "quantity" ? config.isAscending : null
+        }
+      />
     </div>
   );
 };
