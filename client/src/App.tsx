@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 
 import ShopHeader from "./components/ShopHeader";
-import ProductList from "./components/ProductListWithAdd";
+import ProductList from "./components/ProductList";
 import ToggledAddProductForm from "./components/ToggledAddProductForm";
 
 import type { CartItem as CartItemType, NewProduct, Product } from "./types";
