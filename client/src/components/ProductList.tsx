@@ -1,5 +1,10 @@
+import { useEffect, useReducer, useState } from "react";
 import type { Product } from "../types";
 import EditableProductDetails from "./EditableProductDetails";
+import SortControls from "./SortControls";
+import productSortReducer, {
+  type ProductSortConfigAction,
+} from "../reducers/productSortReducer";
 
 interface ProductListProps {
   products: Product[];
@@ -18,11 +23,26 @@ const ProductList = ({
   deleteProduct,
   onAddToCart,
 }: ProductListProps) => {
+  const [sortState, dispatch] = useReducer(productSortReducer, {
+    products,
+    config: { sortField: "title", isAscending: false },
+  });
+  const { products: sortedProducts, config } = sortState;
+
+  // useEffect(() => {
+  //   dispatch(sortConfig);
+  // }, [sortConfig]);
+
+  useEffect(() => {
+    dispatch({ type: "PRODUCT_SORT_OVERWRITE", products });
+  }, [products]);
+
   return (
     <div className="product-listing">
       <h2>Products</h2>
+      {/* <SortControls /> */}
       <ul className="product-list">
-        {products.map((product) => (
+        {sortedProducts.map((product) => (
           <EditableProductDetails
             key={product._id}
             product={product}
