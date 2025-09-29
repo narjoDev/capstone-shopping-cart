@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
+
 import ShopHeader from "./components/ShopHeader";
 import ProductListWithAdd from "./components/ProductListWithAdd";
+
 import type { CartItem as CartItemType, NewProduct, Product } from "./types";
 
 import {
@@ -11,8 +13,11 @@ import {
 } from "./services/products";
 import { addToCart, checkout, getAllCartItems } from "./services/cart";
 
+import cartReducer, { CartAction } from "./reducers/cartReducer";
+
 const App = () => {
-  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  // const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -28,7 +33,7 @@ const App = () => {
     (async () => {
       try {
         const fetchedCart: CartItemType[] = await getAllCartItems();
-        setCartItems(fetchedCart);
+        cartDispatch(CartAction.SetAll(fetchedCart));
       } catch (error) {
         console.log(error);
       }
@@ -85,7 +90,7 @@ const App = () => {
   const handleCheckout = async () => {
     try {
       await checkout();
-      setCartItems([]);
+      cartDispatch(CartAction.Checkout());
     } catch (error) {
       console.log(error);
     }
@@ -114,17 +119,7 @@ const App = () => {
           return product._id === id ? updatedProduct : product;
         });
       });
-      if (updatedItem.quantity === 1) {
-        setCartItems((prevCartItems) => {
-          return prevCartItems.concat(updatedItem);
-        });
-      } else {
-        setCartItems((prevCartItems) => {
-          return prevCartItems.map((item) => {
-            return item._id === updatedItem._id ? updatedItem : item;
-          });
-        });
-      }
+      cartDispatch(CartAction.AddItem(updatedItem));
     } catch (error) {
       console.log(error);
     }
