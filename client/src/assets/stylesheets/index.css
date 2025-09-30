@@ -1,17 +1,33 @@
 @import url("./whitespace-reset.css");
 @import url("https://fonts.googleapis.com/css?family=Rammetto+One%7CRoboto+Condensed");
 
+/* FIXME: this is a nightmare */
+/* TODO: separate naming of colours from assignment/role */
+/* define colors here; leave theme color choice to each statement */
 :root {
   --color-primary: #07575b;
-  --color-soft: #c4dfe6;
+  --color-background-alternate: #c4dfe6;
   --color-accent-maroon: #a83850;
-  --color-accent-gray: #ccc;
   --color-background-blank: #fff;
+  --color-background-header: var(--color-primary);
+  --color-background-outside: white;
+  --color-button: var(--color-primary);
+  --color-always-white: white;
+  --color-text-main: black;
+  --color-accent-gray: #ccc;
   --color-danger: red;
 }
 
 :root .theme-dark {
   --color-primary: #323;
+  --color-background-alternate: #202a3a;
+  --color-accent-maroon: #c18ca0;
+  --color-background-blank: #2f3e50;
+  --color-background-header: #2f4355;
+  --color-background-outside: #131921;
+  --color-button: #4897d9;
+  --color-text-main: white;
+  color: white;
 }
 
 body {
@@ -30,8 +46,8 @@ header {
 }
 
 header {
-  background: var(--color-primary);
-  color: var(--color-background-blank);
+  background: var(--color-background-header);
+  color: var(--color-always-white);
   min-height: 200px;
   overflow: hidden;
   border-radius: 4px 4px 0 0;
@@ -49,7 +65,7 @@ header .cart {
 }
 
 main {
-  background: var(--color-soft);
+  background: var(--color-background-alternate);
 }
 
 h2 {
@@ -108,8 +124,8 @@ li {
 
 button {
   padding: 5px 12px 5px;
-  background: var(--color-primary);
-  color: var(--color-background-blank);
+  background: var(--color-button);
+  color: var(--color-always-white);
   border-color: transparent;
   border-radius: 4px;
   font-size: 14px;
@@ -119,7 +135,7 @@ button {
 }
 
 .checkout {
-  background: var(--color-background-blank);
+  background: var(--color-always-white);
   color: var(--color-primary);
   margin-top: 20px;
   float: right;
@@ -143,7 +159,7 @@ button:disabled {
   width: 25px;
   height: 25px;
   background: var(--color-danger);
-  color: var(--color-background-blank);
+  color: var(--color-always-white);
   padding: 0;
   cursor: pointer;
 }
@@ -232,13 +248,13 @@ table td.total {
 .sort-button {
   border-width: 1px;
   background: transparent;
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+  color: var(--color-button);
+  border-color: var(--color-button);
 }
 
 .sort-button.active {
-  background: var(--color-primary);
-  color: var(--color-background-blank);
+  background: var(--color-button);
+  color: var(--color-always-white);
   border-color: transparent;
 }
 
@@ -252,6 +268,7 @@ table td.total {
 }
 
 .header-controls button {
+  background: transparent;
   border-width: 1px;
-  border-color: var(--color-background-blank);
+  border-color: var(--color-always-white);
 }
