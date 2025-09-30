@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AppContext } from "../providers/AppProvider";
 import type { Product } from "../types";
 
 interface ProductDetailsProps {
@@ -14,10 +16,16 @@ const ProductDetails = ({
   deleteProduct,
   onAddToCart,
 }: ProductDetailsProps) => {
+  const { currency } = useContext(AppContext);
+  const currencySymbol = currency === "USD" ? "$" : "€";
+
   return (
     <div className="product-details">
       <h3>{product.title}</h3>
-      <p className="price">${product.price.toFixed(2)}</p>
+      <p className="price">
+        {currencySymbol}
+        {product.price.toFixed(2)}
+      </p>
       <p className="quantity">{product.quantity} left in stock</p>
       <div className="actions product-actions">
         <button
