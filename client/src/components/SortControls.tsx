@@ -28,7 +28,7 @@ const SortControls = ({ config, onConfigChange }: SortControlsProps) => {
   };
 
   return (
-    <div>
+    <div className="sort-control">
       Sort by:
       <button
         className={`sort-button ${

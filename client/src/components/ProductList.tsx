@@ -39,8 +39,10 @@ const ProductList = ({
 
   return (
     <div className="product-listing">
-      <h2>Products</h2>
-      <SortControls config={config} onConfigChange={handleConfigChange} />
+      <div className="product-listing-header">
+        <h2>Products</h2>
+        <SortControls config={config} onConfigChange={handleConfigChange} />
+      </div>
       <ul className="product-list">
         {sortedProducts.map((product) => (
           <EditableProductDetails
