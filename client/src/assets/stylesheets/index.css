@@ -201,6 +201,8 @@ table td.total {
   padding-top: 20px;
 }
 
+/* sorting controls */
+
 .product-listing-header {
   display: flex;
   justify-content: space-between;
@@ -225,4 +227,18 @@ table td.total {
   background: #07575b;
   color: #fff;
   border-color: transparent;
+}
+
+/* context controls */
+.header-controls {
+  float: left;
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  gap: 10px;
+}
+
+.header-controls button {
+  border-width: 1px;
+  border-color: #fff;
 }
