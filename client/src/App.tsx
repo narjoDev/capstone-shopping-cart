@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 
 import ShopHeader from "./components/ShopHeader";
 import ProductList from "./components/ProductList";
@@ -16,10 +16,12 @@ import { addToCart, checkout, getAllCartItems } from "./services/cart";
 
 import cartReducer, { CartAction } from "./reducers/cartReducer";
 import productsReducer, { ProductsAction } from "./reducers/productsReducer";
+import { AppContext } from "./providers/AppProvider";
 
 const App = () => {
   const [cartItems, dispatchCart] = useReducer(cartReducer, []);
   const [products, dispatchProducts] = useReducer(productsReducer, []);
+  const { theme } = useContext(AppContext);
 
   useEffect(() => {
     (async () => {
@@ -116,7 +118,7 @@ const App = () => {
   };
 
   return (
-    <div id="app">
+    <div id="app" className={theme === "dark" ? "theme-dark" : ""}>
       <ShopHeader cartItems={cartItems} onCheckout={handleCheckout} />
 
       <main>

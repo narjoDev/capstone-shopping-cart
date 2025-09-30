@@ -24,6 +24,10 @@ header {
   border-radius: 4px 4px 0 0;
 }
 
+.theme-dark header {
+  background: #332228;
+}
+
 header h1 {
   font-family: "Rammetto One", cursive;
   font-size: 26px;
