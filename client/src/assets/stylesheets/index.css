@@ -1,6 +1,19 @@
 @import url("./whitespace-reset.css");
 @import url("https://fonts.googleapis.com/css?family=Rammetto+One%7CRoboto+Condensed");
 
+:root {
+  --color-primary: #07575b;
+  --color-soft: #c4dfe6;
+  --color-accent-maroon: #a83850;
+  --color-accent-gray: #ccc;
+  --color-background-blank: #fff;
+  --color-danger: red;
+}
+
+:root .theme-dark {
+  --color-primary: #323;
+}
+
 body {
   font-family: "Roboto Condensed", sans-serif;
   font-size: 16px;
@@ -17,15 +30,11 @@ header {
 }
 
 header {
-  background: #07575b;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-background-blank);
   min-height: 200px;
   overflow: hidden;
   border-radius: 4px 4px 0 0;
-}
-
-.theme-dark header {
-  background: #332228;
 }
 
 header h1 {
@@ -40,7 +49,7 @@ header .cart {
 }
 
 main {
-  background: #c4dfe6;
+  background: var(--color-soft);
 }
 
 h2 {
@@ -53,7 +62,7 @@ header h2 {
 }
 
 .product {
-  background: #fff;
+  background: var(--color-background-blank);
   padding: 14px;
   margin: 0 0 20px 0;
   border-radius: 4px;
@@ -70,7 +79,7 @@ h3 {
 }
 
 .product .price {
-  color: #a83850;
+  color: var(--color-accent-maroon);
 }
 
 .product .quantity.none-left {
@@ -80,7 +89,7 @@ h3 {
 .product .edit-form,
 .add-form {
   margin-top: 20px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--color-accent-gray);
   padding-top: 10px;
 }
 
@@ -99,8 +108,8 @@ li {
 
 button {
   padding: 5px 12px 5px;
-  background: #07575b;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-background-blank);
   border-color: transparent;
   border-radius: 4px;
   font-size: 14px;
@@ -110,15 +119,15 @@ button {
 }
 
 .checkout {
-  background: #fff;
-  color: #07575b;
+  background: var(--color-background-blank);
+  color: var(--color-primary);
   margin-top: 20px;
   float: right;
 }
 
 button:disabled {
-  background: #ccc;
-  color: #fff;
+  background: var(--color-accent-gray);
+  color: var(--color-background-blank);
   cursor: auto;
 }
 
@@ -133,8 +142,8 @@ button:disabled {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  background: red;
-  color: #fff;
+  background: var(--color-danger);
+  color: var(--color-background-blank);
   padding: 0;
   cursor: pointer;
 }
@@ -159,7 +168,7 @@ input[type="text"] input[type="number"] {
 
 input[type="text"]:focus input[type="number"]:focus {
   outline: none;
-  border-color: #07575b;
+  border-color: var(--color-primary);
 }
 
 input::-webkit-outer-spin-button,
@@ -223,13 +232,13 @@ table td.total {
 .sort-button {
   border-width: 1px;
   background: transparent;
-  color: #07575b;
-  border-color: #07575b;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .sort-button.active {
-  background: #07575b;
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-background-blank);
   border-color: transparent;
 }
 
@@ -244,5 +253,5 @@ table td.total {
 
 .header-controls button {
   border-width: 1px;
-  border-color: #fff;
+  border-color: var(--color-background-blank);
 }
