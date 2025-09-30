@@ -200,3 +200,16 @@ table td.total {
   text-align: right;
   padding-top: 20px;
 }
+
+.sort-button {
+  border-width: 1px;
+  background: transparent;
+  color: #07575b;
+  border-color: #07575b;
+}
+
+.sort-button.active {
+  background: #07575b;
+  color: #fff;
+  border-color: transparent;
+}

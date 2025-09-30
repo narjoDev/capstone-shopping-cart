@@ -1,33 +1,7 @@
 import type { SortConfig } from "../reducers/productSortReducer";
 
-const ARROW_UP = "↑";
-const ARROW_DOWN = "↓";
-
-interface SortButtonProps {
-  onClick: (event: React.SyntheticEvent) => void;
-  text: string;
-  // FIXME: stop using this for both isActive and isAscending
-  isAscending: boolean | null;
-}
-
-const SortButton = ({ onClick, text, isAscending }: SortButtonProps) => {
-  const arrow = isAscending ? ARROW_UP : ARROW_DOWN;
-  // TODO: put styles in style sheet
-  const style =
-    isAscending === null
-      ? {
-          background: "transparent",
-          color: "#07575b",
-          borderColor: "#07575b",
-        }
-      : {};
-  return (
-    <button onClick={onClick} style={{ ...style, borderWidth: "1px" }}>
-      {text}
-      {isAscending !== null && arrow}
-    </button>
-  );
-};
+const ARROW_UP = " ↑";
+const ARROW_DOWN = " ↓";
 
 interface SortControlsProps {
   config: SortConfig;
@@ -48,27 +22,38 @@ const SortControls = ({ config, onConfigChange }: SortControlsProps) => {
     };
   };
 
+  const getSortIndicator = (sortField: SortConfig["sortField"]) => {
+    if (config.sortField !== sortField) return null;
+    return config.isAscending ? ARROW_UP : ARROW_DOWN;
+  };
+
   return (
     <div>
       Sort by:
-      {/* TODO: this is a bit of a mess */}
-      <SortButton
+      <button
+        className={`sort-button ${
+          config.sortField === "title" ? "active" : ""
+        }`}
         onClick={onClickSort("title")}
-        text={"Name"}
-        isAscending={config.sortField === "title" ? config.isAscending : null}
-      />
-      <SortButton
+      >
+        Name{getSortIndicator("title")}
+      </button>
+      <button
+        className={`sort-button ${
+          config.sortField === "price" ? "active" : ""
+        }`}
         onClick={onClickSort("price")}
-        text={"Price"}
-        isAscending={config.sortField === "price" ? config.isAscending : null}
-      />
-      <SortButton
+      >
+        Price{getSortIndicator("price")}
+      </button>
+      <button
+        className={`sort-button ${
+          config.sortField === "quantity" ? "active" : ""
+        }`}
         onClick={onClickSort("quantity")}
-        text={"Quantity"}
-        isAscending={
-          config.sortField === "quantity" ? config.isAscending : null
-        }
-      />
+      >
+        Quantity{getSortIndicator("quantity")}
+      </button>
     </div>
   );
 };
