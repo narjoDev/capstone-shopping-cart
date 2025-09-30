@@ -9,10 +9,10 @@ interface ShopHeaderProps {
 }
 
 const ShopHeader = ({ cartItems, onCheckout }: ShopHeaderProps) => {
-  const { theme, handleThemeChange } = useContext(AppContext);
+  const { theme, handleThemeChange, currency, handleCurrencyChange } =
+    useContext(AppContext);
   const otherTheme = theme === "light" ? "dark" : "light";
-
-  console.log(theme);
+  const otherCurrency = currency === "USD" ? "EUR" : "USD";
 
   return (
     <header>
@@ -24,7 +24,9 @@ const ShopHeader = ({ cartItems, onCheckout }: ShopHeaderProps) => {
         >
           {otherTheme === "light" ? "☀️" : "🌙"}
         </button>
-        <button>USD</button>
+        <button onClick={() => handleCurrencyChange(otherCurrency)}>
+          {currency}
+        </button>
       </div>
       <Cart items={cartItems} onCheckout={onCheckout} />
     </header>
