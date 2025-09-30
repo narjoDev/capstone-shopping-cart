@@ -6,11 +6,13 @@ const ARROW_DOWN = "↓";
 interface SortButtonProps {
   onClick: (event: React.SyntheticEvent) => void;
   text: string;
+  // FIXME: stop using this for both isActive and isAscending
   isAscending: boolean | null;
 }
 
 const SortButton = ({ onClick, text, isAscending }: SortButtonProps) => {
   const arrow = isAscending ? ARROW_UP : ARROW_DOWN;
+  // TODO: put styles in style sheet
   const style =
     isAscending === null
       ? {

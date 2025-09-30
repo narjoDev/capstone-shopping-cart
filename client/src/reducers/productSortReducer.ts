@@ -19,6 +19,8 @@ export type ProductSortAction =
   | ProductSortOverwriteAction
   | ProductSortConfigAction;
 
+// TODO: export actions
+
 interface SortState {
   products: Product[];
   config: SortConfig;

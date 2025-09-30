@@ -18,15 +18,14 @@ import cartReducer, { CartAction } from "./reducers/cartReducer";
 import productsReducer, { ProductsAction } from "./reducers/productsReducer";
 
 const App = () => {
-  const [cartItems, cartDispatch] = useReducer(cartReducer, []);
-  const [products, productsDispatch] = useReducer(productsReducer, []);
+  const [cartItems, dispatchCart] = useReducer(cartReducer, []);
+  const [products, dispatchProducts] = useReducer(productsReducer, []);
 
   useEffect(() => {
-    // TODO: consider combining these into a single try block
     (async () => {
       try {
         const fetchedProducts: Product[] = await getAllProducts();
-        productsDispatch(ProductsAction.SetAll(fetchedProducts));
+        dispatchProducts(ProductsAction.SetAll(fetchedProducts));
       } catch (error) {
         console.log(error);
       }
@@ -34,7 +33,7 @@ const App = () => {
     (async () => {
       try {
         const fetchedCart: CartItemType[] = await getAllCartItems();
-        cartDispatch(CartAction.SetAll(fetchedCart));
+        dispatchCart(CartAction.SetAll(fetchedCart));
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +46,7 @@ const App = () => {
   ) => {
     try {
       const createdProduct = await createProduct(product);
-      productsDispatch(ProductsAction.AddProduct(createdProduct));
+      dispatchProducts(ProductsAction.AddProduct(createdProduct));
       if (callback) {
         callback();
       }
@@ -63,7 +62,7 @@ const App = () => {
   ) => {
     try {
       const updatedProduct = await updateProduct(id, updatedFields);
-      productsDispatch(ProductsAction.UpdateProduct(updatedProduct));
+      dispatchProducts(ProductsAction.UpdateProduct(updatedProduct));
       if (callback) {
         callback();
       }
@@ -76,7 +75,7 @@ const App = () => {
   const handleDeleteProduct = async (id: Product["_id"]) => {
     try {
       await deleteProduct(id);
-      productsDispatch(ProductsAction.DeleteProduct(id));
+      dispatchProducts(ProductsAction.DeleteProduct(id));
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +84,7 @@ const App = () => {
   const handleCheckout = async () => {
     try {
       await checkout();
-      cartDispatch(CartAction.Checkout());
+      dispatchCart(CartAction.Checkout());
     } catch (error) {
       console.log(error);
     }
@@ -109,8 +108,8 @@ const App = () => {
       const { product: updatedProduct, item: updatedItem } = await addToCart(
         id
       );
-      productsDispatch(ProductsAction.UpdateProduct(updatedProduct));
-      cartDispatch(CartAction.AddItem(updatedItem));
+      dispatchProducts(ProductsAction.UpdateProduct(updatedProduct));
+      dispatchCart(CartAction.AddItem(updatedItem));
     } catch (error) {
       console.log(error);
     }
