@@ -23,3 +23,12 @@ export const cartItemSchema = productSchema
 export type NewProduct = z.infer<typeof newProductSchema>;
 export type Product = z.infer<typeof productSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
+
+export type Theme = "light" | "dark";
+
+export type Currency = "USD" | "EUR";
+export const exchangeRatesSchema = z.object({
+  EUR: z.number(),
+  USD: z.number(),
+});
+export type ExchangeRates = z.infer<typeof exchangeRatesSchema>;

@@ -1,8 +1,7 @@
 import React, { createContext, useState } from "react";
+import type { Theme, Currency } from "../types";
 
-type Theme = "light" | "dark";
 const DEFAULT_THEME: Theme = "light";
-type Currency = "USD" | "EUR";
 const DEFAULT_CURRENCY: Currency = "USD";
 
 interface AppContext {
@@ -20,6 +19,7 @@ const defaultContext: AppContext = {
 };
 
 // FIXME: make custom hook that throws error if no context
+// eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext<AppContext>(defaultContext);
 
 interface AppProviderProps {
