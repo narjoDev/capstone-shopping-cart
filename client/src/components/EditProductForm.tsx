@@ -1,17 +1,11 @@
-import { useState, type ChangeEvent } from "react";
 import type { NewProduct, Product } from "../types";
+import { useForm } from "react-hook-form";
 
 interface FormFields {
   title: string;
   price: string;
   quantity: string;
 }
-
-const EMPTY_FIELDS: FormFields = {
-  title: "",
-  price: "",
-  quantity: "",
-};
 
 interface EditProductFormProps {
   toggleShowForm: () => void;
@@ -28,11 +22,9 @@ const EditProductForm = ({
   product,
   editProduct,
 }: EditProductFormProps) => {
-  const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
+  const { register, handleSubmit } = useForm<FormFields>();
 
-  const handleSubmit = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
+  const onSubmit = async (fields: Partial<FormFields>) => {
     const optionalFields: Partial<NewProduct> = {};
 
     if (fields.title) {
@@ -48,26 +40,17 @@ const EditProductForm = ({
     await editProduct(product._id, optionalFields, toggleShowForm);
   };
 
-  const makeSetter = (field: keyof FormFields) => {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-      const newFields = { ...fields };
-      newFields[field] = event.target.value;
-      setFields(newFields);
-    };
-  };
-
   return (
     <div className="edit-form">
       <h3>Edit Product</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="input-group">
           <label htmlFor="product-name">Product Name</label>
           <input
             type="text"
             id="product-name"
-            value={fields.title}
-            onChange={makeSetter("title")}
             aria-label="Product Name"
+            {...register("title")}
           />
         </div>
 
@@ -76,9 +59,8 @@ const EditProductForm = ({
           <input
             type="number"
             id="product-price"
-            value={fields.price}
-            onChange={makeSetter("price")}
             aria-label="Product Price"
+            {...register("price")}
           />
         </div>
 
@@ -87,9 +69,8 @@ const EditProductForm = ({
           <input
             type="number"
             id="product-quantity"
-            value={fields.quantity}
-            onChange={makeSetter("quantity")}
             aria-label="Product Quantity"
+            {...register("quantity")}
           />
         </div>
 

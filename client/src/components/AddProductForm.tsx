@@ -15,18 +15,18 @@ interface AddProductFormProps {
 const AddProductForm = ({ toggleVisible, addProduct }: AddProductFormProps) => {
   const { register, handleSubmit } = useForm<FormFields>();
 
-  const onSubmit = handleSubmit((fields) => {
+  const onSubmit = async (fields: FormFields) => {
     const convertedFields: NewProduct = {
       ...fields,
       price: parseFloat(fields.price),
       quantity: parseInt(fields.quantity),
     };
-    addProduct(convertedFields, toggleVisible);
-  });
+    await addProduct(convertedFields, toggleVisible);
+  };
 
   return (
     <div className="add-form">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="input-group">
           <label htmlFor="product-name">Product Name:</label>
           <input
