@@ -17,11 +17,13 @@ import { addToCart, checkout, getAllCartItems } from "./services/cart";
 import cartReducer, { CartAction } from "./reducers/cartReducer";
 import productsReducer, { ProductsAction } from "./reducers/productsReducer";
 import { AppContext } from "./providers/AppProvider";
+import { ExchangeRateContext } from "./providers/ExchangeRateProvider";
 
 const App = () => {
   const [cartItems, dispatchCart] = useReducer(cartReducer, []);
   const [products, dispatchProducts] = useReducer(productsReducer, []);
   const { theme } = useContext(AppContext);
+  const { refreshRates } = useContext(ExchangeRateContext);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +42,10 @@ const App = () => {
         console.log(error);
       }
     })();
-  }, []);
+    (async () => {
+      await refreshRates();
+    })();
+  }, [refreshRates]);
 
   const handleAddProduct = async (
     product: NewProduct,

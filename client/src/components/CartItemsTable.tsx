@@ -2,6 +2,7 @@ import CartItem from "./CartItem";
 import type { CartItem as CartItemType } from "../types";
 import { useContext } from "react";
 import { AppContext } from "../providers/AppProvider";
+import { ExchangeRateContext } from "../providers/ExchangeRateProvider";
 
 interface CartItemsTableProps {
   items: CartItemType[];
@@ -10,6 +11,8 @@ interface CartItemsTableProps {
 const CartItemsTable = ({ items }: CartItemsTableProps) => {
   const { currency } = useContext(AppContext);
   const currencySymbol = currency === "USD" ? "$" : "€";
+  const { rates } = useContext(ExchangeRateContext);
+  const rate = rates[currency];
   const total: number = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -37,7 +40,7 @@ const CartItemsTable = ({ items }: CartItemsTableProps) => {
         <tr>
           <td colSpan={3} className="total">
             Total: {currencySymbol}
-            {total.toFixed(2)}
+            {(total * rate).toFixed(2)}
           </td>
         </tr>
       </tfoot>
