@@ -1,5 +1,5 @@
-import { useState, type ChangeEvent } from "react";
 import type { NewProduct } from "../types";
+import { useForm } from "react-hook-form";
 
 interface FormFields {
   title: string;
@@ -7,54 +7,32 @@ interface FormFields {
   quantity: string;
 }
 
-const EMPTY_FIELDS: FormFields = {
-  title: "",
-  price: "",
-  quantity: "",
-};
-
 interface AddProductFormProps {
   toggleVisible: () => void;
   addProduct: (product: NewProduct, callback?: () => void) => void;
 }
 
-// solution uses common ProductForm component for both add and edit
-// note that this makes fields in the edit form required
 const AddProductForm = ({ toggleVisible, addProduct }: AddProductFormProps) => {
-  const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
+  const { register, handleSubmit } = useForm<FormFields>();
 
-  const handleSubmit = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
+  const onSubmit = handleSubmit((fields) => {
     const convertedFields: NewProduct = {
       ...fields,
       price: parseFloat(fields.price),
       quantity: parseInt(fields.quantity),
     };
-
-    await addProduct(convertedFields, toggleVisible);
-  };
-
-  const makeSetter = (field: keyof FormFields) => {
-    return (event: ChangeEvent<HTMLInputElement>) => {
-      const newFields = { ...fields };
-      newFields[field] = event.target.value;
-      setFields(newFields);
-    };
-  };
+    addProduct(convertedFields, toggleVisible);
+  });
 
   return (
     <div className="add-form">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div className="input-group">
           <label htmlFor="product-name">Product Name:</label>
           <input
             type="text"
             id="product-name"
-            name="product-name"
-            required
-            value={fields.title}
-            onChange={makeSetter("title")}
+            {...register("title", { required: true })}
           />
         </div>
         <div className="input-group">
@@ -62,12 +40,9 @@ const AddProductForm = ({ toggleVisible, addProduct }: AddProductFormProps) => {
           <input
             type="number"
             id="product-price"
-            name="product-price"
             min="0"
             step="0.01"
-            required
-            value={fields.price}
-            onChange={makeSetter("price")}
+            {...register("price", { required: true })}
           />
         </div>
         <div className="input-group">
@@ -75,11 +50,8 @@ const AddProductForm = ({ toggleVisible, addProduct }: AddProductFormProps) => {
           <input
             type="number"
             id="product-quantity"
-            name="product-quantity"
             min="0"
-            required
-            value={fields.quantity}
-            onChange={makeSetter("quantity")}
+            {...register("quantity", { required: true })}
           />
         </div>
         <div className="actions form-actions">
