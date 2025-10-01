@@ -14,18 +14,14 @@ const EMPTY_FIELDS: FormFields = {
 };
 
 interface AddProductFormProps {
-  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleVisible: () => void;
   addProduct: (product: NewProduct, callback?: () => void) => void;
 }
 
 // solution uses common ProductForm component for both add and edit
 // note that this makes fields in the edit form required
-const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
+const AddProductForm = ({ toggleVisible, addProduct }: AddProductFormProps) => {
   const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
-
-  const onCancel = () => {
-    setShowForm(false);
-  };
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -36,7 +32,7 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
       quantity: parseInt(fields.quantity),
     };
 
-    await addProduct(convertedFields, () => setShowForm(false));
+    await addProduct(convertedFields, toggleVisible);
   };
 
   const makeSetter = (field: keyof FormFields) => {
@@ -88,7 +84,7 @@ const AddProductForm = ({ setShowForm, addProduct }: AddProductFormProps) => {
         </div>
         <div className="actions form-actions">
           <button type="submit">Add</button>
-          <button type="button" onClick={onCancel}>
+          <button type="button" onClick={toggleVisible}>
             Cancel
           </button>
         </div>

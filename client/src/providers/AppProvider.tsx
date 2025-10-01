@@ -26,6 +26,7 @@ interface AppProviderProps {
   children: React.ReactNode;
 }
 
+// TODO: use zod for runtime checking
 const lazyInitialTheme = (): Theme => {
   const storedValue = localStorage.getItem("theme");
   if (storedValue === "light" || storedValue === "dark") {

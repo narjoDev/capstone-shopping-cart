@@ -1,7 +1,7 @@
-import { useState } from "react";
 import type { Product } from "../types";
 import ProductDetails from "./ProductDetails";
 import EditProductForm from "./EditProductForm";
+import useToggle from "../hooks/useToggle";
 
 interface EditableProductDetailsProps {
   product: Product; //Pick<Product, "title" | "quantity" | "price">;
@@ -20,18 +20,18 @@ const EditableProductDetails = ({
   deleteProduct,
   onAddToCart,
 }: EditableProductDetailsProps) => {
-  const [showEditForm, setShowEditForm] = useState(false);
+  const [isVisible, toggleVisible] = useToggle(false);
   return (
     <li key={product._id} className="product">
       <ProductDetails
         product={product}
-        setShowEdit={setShowEditForm}
+        toggleShowEdit={toggleVisible}
         deleteProduct={deleteProduct}
         onAddToCart={onAddToCart}
       />
-      {showEditForm && (
+      {isVisible && (
         <EditProductForm
-          setShowForm={setShowEditForm}
+          toggleShowForm={toggleVisible}
           product={product}
           editProduct={editProduct}
         />

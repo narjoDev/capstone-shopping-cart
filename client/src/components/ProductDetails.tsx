@@ -5,7 +5,7 @@ import { ExchangeRateContext } from "../providers/ExchangeRateProvider";
 
 interface ProductDetailsProps {
   product: Product;
-  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleShowEdit: () => void;
   deleteProduct: (id: Product["_id"]) => void;
   onAddToCart: (id: Product["_id"]) => void;
 }
@@ -13,7 +13,7 @@ interface ProductDetailsProps {
 // Srdjan says "Product" is not an ideal name
 const ProductDetails = ({
   product,
-  setShowEdit,
+  toggleShowEdit,
   deleteProduct,
   onAddToCart,
 }: ProductDetailsProps) => {
@@ -38,7 +38,7 @@ const ProductDetails = ({
         >
           Add to Cart
         </button>
-        <button className="edit" onClick={() => setShowEdit(true)}>
+        <button className="edit" onClick={toggleShowEdit}>
           Edit
         </button>
       </div>

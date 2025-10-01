@@ -14,7 +14,7 @@ const EMPTY_FIELDS: FormFields = {
 };
 
 interface EditProductFormProps {
-  setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleShowForm: () => void;
   product: Product;
   editProduct: (
     id: Product["_id"],
@@ -24,16 +24,11 @@ interface EditProductFormProps {
 }
 
 const EditProductForm = ({
-  setShowForm,
+  toggleShowForm,
   product,
   editProduct,
 }: EditProductFormProps) => {
   const [fields, setFields] = useState<FormFields>(EMPTY_FIELDS);
-
-  const onCancel = () => {
-    setShowForm(false);
-    // inputs are destroyed assuming parent unmounts this component
-  };
 
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -50,7 +45,7 @@ const EditProductForm = ({
       optionalFields.quantity = parseInt(fields.quantity);
     }
 
-    await editProduct(product._id, optionalFields, () => setShowForm(false));
+    await editProduct(product._id, optionalFields, toggleShowForm);
   };
 
   const makeSetter = (field: keyof FormFields) => {
@@ -100,7 +95,7 @@ const EditProductForm = ({
 
         <div className="actions form-actions">
           <button type="submit">Update</button>
-          <button type="button" onClick={onCancel}>
+          <button type="button" onClick={toggleShowForm}>
             Cancel
           </button>
         </div>
