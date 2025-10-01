@@ -26,14 +26,32 @@ interface AppProviderProps {
   children: React.ReactNode;
 }
 
+const lazyInitialTheme = (): Theme => {
+  const storedValue = localStorage.getItem("theme");
+  if (storedValue === "light" || storedValue === "dark") {
+    return storedValue;
+  }
+  return DEFAULT_THEME;
+};
+
+const lazyInitialCurrency = (): Currency => {
+  const storedValue = localStorage.getItem("currency");
+  if (storedValue === "USD" || storedValue === "EUR") {
+    return storedValue;
+  }
+  return DEFAULT_CURRENCY;
+};
+
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
-  const [currency, setCurrency] = useState<Currency>(DEFAULT_CURRENCY);
+  const [theme, setTheme] = useState<Theme>(lazyInitialTheme);
+  const [currency, setCurrency] = useState<Currency>(lazyInitialCurrency);
 
   const handleThemeChange = (newTheme: Theme) => {
+    localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
   };
   const handleCurrencyChange = (newCurrency: Currency) => {
+    localStorage.setItem("currency", newCurrency);
     setCurrency(newCurrency);
   };
 
