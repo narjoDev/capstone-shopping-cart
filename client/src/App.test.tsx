@@ -335,7 +335,6 @@ it("editing product hides form and updates display", async () => {
 
   // assert hides form
   expect(editButton).toBeInTheDocument();
-  // FIXME: failing
   expect(updateButton).not.toBeInTheDocument();
 
   // assert product updated

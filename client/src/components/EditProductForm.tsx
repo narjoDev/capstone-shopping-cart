@@ -37,6 +37,11 @@ const EditProductForm = ({
       optionalFields.quantity = parseInt(fields.quantity);
     }
 
+    // TODO: Handle empty form more gracefully
+    if (Object.keys(optionalFields).length === 0) {
+      return;
+    }
+
     await editProduct(product._id, optionalFields, toggleShowForm);
   };
 
@@ -60,6 +65,8 @@ const EditProductForm = ({
             type="number"
             id="product-price"
             aria-label="Product Price"
+            step="0.01"
+            min="0"
             {...register("price")}
           />
         </div>
@@ -70,6 +77,7 @@ const EditProductForm = ({
             type="number"
             id="product-quantity"
             aria-label="Product Quantity"
+            min="0"
             {...register("quantity")}
           />
         </div>
